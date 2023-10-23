@@ -1,0 +1,757 @@
+#include <kipr/botball.h>
+
+#define LEFT_IR 1
+#define RIGHT_IR 0
+#define LEFT_BUTTON 9
+#define BUTTON 0
+#define ARM 2
+#define CLAW 1
+#define ELEVATOR 3
+#define BLUE_CHANNEL 0
+#define YELLOW_CHANNEL 1
+
+int get_lbump();
+int get_rbump();
+void back_up_against_pvc();
+void back_up();
+void set_wheel_velocities();
+void turn_90_CW();
+void turn_90_CCW();
+void set_servo_from_to();
+void restart();
+void restartArmAndClaw();
+void lowerArm();
+void moveOutOfStartingBox();
+void turnToLignWithTape();
+void bringArmBackUp();
+void movUntilRSensorSeesBalck();
+void turn_45_CW();
+void turn_45_CCW();
+void turn_180_CW();
+void moveOutABit();
+void alignWithTape();
+void move_short();
+void moveAlongtape();
+void getInPosForTram();
+void openClaw();
+void move_short_2();
+void moveUntilTouched();
+void moveToBotGuy();
+void moveBackShort();
+void armDown();
+void comeOutABit();
+void comeInAtAngle();
+void bringArmToDownPos();
+void elevatorGrab();
+void armGrab();
+void closeClaw();
+void clawGrab();
+void armLift();
+void elevatorLift();
+void elevatorDunk();
+void armDunk();
+void diriveForwardSlight();
+void clawRelease();
+void restart_2();
+void moveShort();
+void moveShort_2();
+void rotateLeft();
+void moveShort_3();
+void elevatorVertical();
+void armParallel();
+void moveBackwards();
+void moveForwardWithTram();
+void moveShort_4();
+void moveBackTillWhite();
+void waitForSmallBot();
+void alignWithTapeForward();
+void moveShort_5();
+void armMax();
+void moveAlongtape_2();
+void moveShort_6();
+void elevatorDunk_2();
+
+typedef enum {ARM_START = 159, ARM_GRAB=1393, ARM_90=1061, ARM_DUNK=2047,ARM_DUNK_2=2047, ARM_LIFT=189, ARM_PARALLEL=1525, ARM_MAX=2040} ArmPosition; //1215
+typedef enum {CLAW_START=1920, CLAW_90 = 966, CLAW_GRAB=1980, CLAW_MAX=0, CLAW_RELEASE=1773, CLAW_OPEN=1387, CLAW_CLOSE=2050 } ClawPosition;
+typedef enum {ELEVATOR_START=930, ELEVATOR_DUNK=449,ELEVATOR_DUNK_2=167, ELEVATOR_GRAB=1821, ELEVATOR_LIFT= 811, ELEVATOR_VERTICAL=0} ElevatorPosition;//170
+
+
+int main()
+{
+    printf("Connecting to Create\n");
+    create_connect();
+
+    printf("align with tape\n");
+    alignWithTape();
+
+    printf("back till white\n");
+    moveBackTillWhite();
+
+    printf("align with tape\n");
+    alignWithTape();
+
+    printf("move a bit\n");
+    move_short();
+
+    printf("turn 90 CW \n");
+    turn_90_CW();
+
+    printf("move along tape\n");
+    moveAlongtape();
+
+    printf("move short \n");
+    moveShort_3();
+
+    printf("turn 90 CCW\n");
+    turn_90_CW();
+
+    printf(" elevator vertical \n");
+    elevatorVertical();
+
+    printf(" arm parallel \n");
+    armParallel();
+
+    printf("open claw \n");
+    openClaw();
+
+    printf(" move backwards \n");
+    moveBackwards();
+
+    printf(" close claw \n");
+    closeClaw();
+
+    printf("move short \n");
+    moveShort_5();
+
+    printf(" move forward with tram  \n");
+    alignWithTapeForward();
+
+    printf("move short \n");
+    moveShort_5();
+
+    printf(" open claw \n");
+    openClaw();
+    
+    printf("turn 90 CW \n");
+    turn_90_CW();
+
+    printf("move arm to max height");
+    armMax();
+
+    printf("move short \n");
+    moveShort_5();
+    
+    printf("move short \n");
+    moveShort_6();
+
+    printf("turn 90 CCW \n");
+    turn_90_CCW();
+    
+    printf("align with tape\n");
+    alignWithTape();
+    
+    printf("arm grab \n");
+    armGrab();
+
+    printf("elevator grab \n");
+    elevatorGrab();
+
+    printf("open claw \n");
+    openClaw();
+
+    printf("move short \n");
+    moveShort();
+    
+    printf("turn 90 CCW \n");
+    turn_90_CCW();
+    
+    printf("move along tape\n");
+    moveAlongtape();
+    
+    printf("move short \n");
+    moveShort();
+
+    printf("turn 90 cw\n");
+    turn_90_CW();
+
+    printf("move to bot guy\n");
+    moveToBotGuy();
+
+    printf("claw grab \n");
+    clawGrab();
+
+    printf("move back short along tape \n");
+    moveAlongtape();
+
+    printf("align with tape \n");
+    alignWithTape();
+    
+    printf("move short \n");
+    moveShort();
+    
+    printf("arm lift \n");
+    armLift();
+
+    printf("elevator lift \n");
+    elevatorLift();
+    
+    printf("turn 90 CW \n");
+    turn_90_CW();
+
+    printf("move forward a bit \n");
+    moveShort_4();
+
+    printf("elevator dunk \n");
+    elevatorDunk_2();
+
+    printf("arm dunk \n");
+    armDunk();
+
+    printf("turn 180 cw \n");
+    turn_180_CW();
+    
+    printf("dunk bot by rotating elevator\n");
+    elevatorDunk();
+
+    printf("disable servos \n");
+    disable_servos(1,2,3);
+    
+    return 0;
+}
+
+void set_wheel_velocities(int leftVelocity, int rightVelocity) {
+    create_drive_direct(-rightVelocity, -leftVelocity);
+}
+int get_lbump() {
+    return get_create_rbump();
+}
+
+int get_rbump() {
+    return get_create_lbump();
+}
+void back_up_against_pvc() {
+    while (get_lbump() == 0 && get_rbump() == 0) {
+        set_wheel_velocities(-64, -50 + 1);
+    }
+
+    create_stop();
+}
+void set_servo_from_to(int port, int startPos, int endPos) {
+    int increment = (startPos > endPos) ? -2 : 2;
+    int curPos = startPos;
+
+    while (curPos != endPos) {
+        curPos += increment;
+        set_servo_position(port, curPos);
+        msleep(2);
+    }
+}
+void turn_90_CW() {
+    create_spin_CW(150);
+    msleep(5220.0 /4);
+    create_stop();
+}
+
+void turn_90_CCW()
+{
+    create_spin_CCW(150);
+    msleep(5220.0 /4);
+    create_stop();
+}
+void restart(){
+    enable_servo(ELEVATOR);
+    set_servo_position(ELEVATOR, ELEVATOR_START);
+    msleep(1000);
+
+    enable_servo(CLAW);
+    set_servo_position(CLAW, CLAW_START);
+    msleep(1000);
+
+    enable_servo(ARM);
+    set_servo_position(ARM, ARM_START);
+    msleep(2000);
+
+}
+void restart_2(){
+    enable_servo(CLAW);
+    set_servo_position(CLAW, CLAW_GRAB);
+    msleep(1000);
+    enable_servo(ARM);
+    set_servo_position(ARM, ARM_GRAB);
+    msleep(2000);
+    enable_servo(ELEVATOR);
+    set_servo_position(ELEVATOR, ELEVATOR_GRAB);
+    msleep(1000);
+}
+void restartArmAndClaw(){
+    //   enable_servo(CLAW);
+    //set_servo_position(CLAW, CLAW_START);
+    // msleep(1000);
+    enable_servo(ARM);
+    set_servo_position(ARM, 280);
+    msleep(1000);
+}
+void turnToLignWithTape(){
+    create_spin_CCW(160);
+    msleep(5220.0 /4);
+    create_stop();
+}
+void lowerArm(){
+    enable_servo(ARM);
+    set_servo_position(ARM, ARM_GRAB);
+    msleep(1000);
+    create_stop();
+
+}
+void moveOutOfStartingBox(){
+    set_wheel_velocities(-200,-200);
+    msleep(1000);
+}
+void bringArmBackUp(){
+    set_servo_position(ARM, ARM_START);
+    msleep(1000);
+    create_stop();
+}
+
+void movUntilRSensorSeesBalck(){
+    int i=0;
+    int left=get_create_lcliff_amt();
+    // int right = get_create_rcliff_amt();
+    while(left>2000){
+
+        left= get_create_lcliff_amt();
+        //right= get_create_rcliff_amt();
+        set_wheel_velocities(-50,-50);
+
+        // printf("left = %d \n", left);
+        // printf("right = %d \n", right);
+        msleep(10);
+        i++;
+    }
+    set_wheel_velocities(-50,-50);
+    msleep(1000);
+
+}
+void turn_45_CW(){
+    create_spin_CW(75);
+    msleep(5220.0 /4);
+    // create_stop();
+}
+void turn_45_CCW(){
+    create_spin_CCW(75);
+    msleep(5220.0 /4);
+}
+void moveOutABit(){
+    set_wheel_velocities(-200,-200);
+    msleep(2400);
+}
+void alignWithTape(){
+    int left=get_create_lcliff_amt();
+
+    int right=get_create_rcliff_amt();
+
+    printf("left = %d \n", left);
+    printf("right = %d \n", right);
+
+    while(!(left<2000) || !(right<2000)){
+        // printf("left = %d \n", left);
+        // printf("right = %d \n", right);
+        if(left<2000){
+            set_wheel_velocities(-50,10);
+        }
+        else if(right<2000){
+            set_wheel_velocities(10,-50);
+        }
+        else{
+            set_wheel_velocities(-50,-50);
+        }
+
+        left= get_create_lcliff_amt();
+        right= get_create_rcliff_amt();
+        msleep(1);
+
+
+
+    }
+
+    create_stop();
+
+}
+void move_short(){
+    set_wheel_velocities(-200,-200);
+    msleep(500);
+    create_stop();
+
+}
+void moveAlongtape(){
+    int left=get_create_lcliff_amt();
+    //int right = get_create_rcliff_amt();
+
+    int leftFront=get_create_lfcliff_amt();
+    int rightFront = get_create_rfcliff_amt();
+    printf("left = %d \n", leftFront);
+    printf("right = %d \n", rightFront);
+    int black =2000;
+
+    while(left>2000){
+        if(leftFront< black && rightFront<black){
+            set_wheel_velocities(-400,-400);
+        }else if( leftFront> black){
+            set_wheel_velocities(-250,-300);
+        }else if(rightFront > black){
+            set_wheel_velocities(-300,-250);
+        }
+        left=get_create_lcliff_amt();
+        // right = get_create_rcliff_amt();
+        leftFront=get_create_lfcliff_amt();
+        rightFront = get_create_rfcliff_amt();
+        msleep(1);
+
+    }
+
+}
+void moveBackShort(){
+    set_wheel_velocities(-206,-200);
+    msleep(1350); 
+}
+void moveUntilFrontSensorSeesblack(){
+    int leftFront=get_create_lfcliff_amt();
+    int rightFront = get_create_rfcliff_amt();
+    printf("left = %d \n", leftFront);
+    printf("right = %d \n", rightFront);
+    int black =2000;
+
+    while(!(leftFront<black) || !(rightFront<black)){
+        if(leftFront<black){
+            set_wheel_velocities(-50,10);
+        }
+        else if(rightFront<black){
+            set_wheel_velocities(10,-50);
+        }
+        else{
+            set_wheel_velocities(-50,-50);
+        }
+
+
+        leftFront=get_create_lfcliff_amt();
+        rightFront = get_create_rfcliff_amt();
+        msleep(1);
+
+    }
+}
+void getInPosForTram(){
+    enable_servo(ELEVATOR);
+    enable_servo(ARM);
+
+    set_servo_from_to(ELEVATOR,ELEVATOR_DUNK,400);
+    set_servo_from_to(ARM,ARM_START,ARM_GRAB);
+    ao();
+}
+void openClaw(){
+    enable_servo(CLAW);
+    //  set_servo_from_to(CLAW,CLAW_START,CLAW_OPEN);
+    set_servo_position(CLAW, CLAW_OPEN);
+    msleep(1000);
+
+    ao();
+}
+void elevatorUp(){
+    enable_servo(ELEVATOR);
+    set_servo_from_to(ELEVATOR,ELEVATOR_DUNK,400);
+    ao();
+}
+/*
+amrDown(){
+    enable_servo(ARM);
+    // set_servo_from_to(ARM,ARM_START,ARM_GRAB);
+    set_servo_position(ARM, ARM_MAX);
+    msleep(2000);
+    ao();
+
+}
+*/
+void move_short_2(){
+    set_wheel_velocities(100,100);
+    msleep(500);
+}
+void moveUntilTouched(){
+
+    int button = analog(BUTTON);
+    while(button>10){
+        set_wheel_velocities(96,125);
+        msleep(1);
+        button = analog(BUTTON);
+    }
+}
+void armDown(){
+    enable_servo(ARM);
+    // set_servo_from_to(ARM,ARM_START,ARM_GRAB);
+    set_servo_position(ELEVATOR, 1571);
+    set_servo_position(ARM, 1571);
+    msleep(2000);
+    ao();
+}
+void moveToBotGuy(){
+    set_wheel_velocities(96,126);
+    msleep(2300);
+    create_stop();
+}
+void comeOutABit(){
+    set_wheel_velocities(-100,-100);
+    msleep(500);
+}
+void comeInAtAngle(){
+    set_wheel_velocities(100,80);
+    msleep(500);
+}
+void bringArmToDownPos(){
+    enable_servo(ARM);
+    // set_servo_from_to(ARM,ELEVATOR_GRAB,ELEVATOR_);
+    set_servo_position(ARM, 1571);
+    msleep(2000);
+    ao();
+}
+void elevatorGrab(){
+    enable_servo(ELEVATOR);
+    // set_servo_from_to(ELEVATOR,ELEVATOR_GRAB,ELEVATOR_GRAB);
+    set_servo_position(ELEVATOR,ELEVATOR_GRAB );
+    msleep(1000);
+    ao();
+}
+void armGrab(){
+    enable_servo(ARM);
+    //set_servo_from_to(ARM,ARM_START,ARM_GRAB);
+    set_servo_position(ARM,ARM_GRAB );
+    msleep(2000);
+    //ao();
+}
+void closeClaw(){
+    enable_servo(CLAW);
+    // set_servo_from_to(ARM,ARM_START,ARM_GRAB);
+    set_servo_position(CLAW,CLAW_CLOSE );
+    msleep(2000);
+    ao();
+}
+void clawGrab(){
+    enable_servo(ARM);
+    //set_servo_from_to(ARM,ARM_START,ARM_GRAB);
+    set_servo_position(CLAW,CLAW_GRAB );
+    msleep(2000);
+    ao();
+}
+void turn_180_CW(){
+    create_spin_CW(145);
+    msleep(5020.0/2 );
+    create_stop();
+}
+
+void armLift(){
+    enable_servo(ARM);
+    set_servo_from_to(ARM,ARM_GRAB,ARM_LIFT);
+    //set_servo_position(ARM,ARM_GRAB );
+    //  msleep(2000);
+    ao();
+}
+void elevatorLift(){
+    enable_servo(ELEVATOR);
+    set_servo_from_to(ELEVATOR,ELEVATOR_GRAB,ELEVATOR_LIFT);
+    ao();
+}
+void elevatorDunk(){
+    enable_servo(ELEVATOR);
+    set_servo_from_to(ELEVATOR,ELEVATOR_LIFT,ELEVATOR_DUNK);
+    ao();
+}
+void armDunk(){
+    enable_servo(ARM);
+    set_servo_from_to(ARM,ARM_LIFT,ARM_DUNK);
+    ao();
+}
+void diriveForwardSlight(){
+    set_wheel_velocities(100,130);
+    msleep(500);
+    create_stop();
+}
+void clawRelease(){
+    enable_servo(CLAW);
+    set_servo_position(CLAW,CLAW_RELEASE);
+    // set_servo_from_to(CLAW,CLAW_GRAB,CLAW_RELEASE);
+    // disable_servos(CLAW);
+
+    ao();          
+}
+void moveShort(){
+    set_wheel_velocities(-250,-250);
+    msleep(220);
+    create_stop();
+}
+void moveShort_2(){
+    set_wheel_velocities(-250,-250);
+    msleep(220);
+    create_stop();
+}
+void rotateLeft(){
+    create_spin_CCW(150);
+    msleep(5220.0 /12);
+    create_stop();
+}
+void moveShort_3(){
+    set_wheel_velocities(-250,-250);
+    msleep(360);
+    create_stop();
+}
+void elevatorVertical(){
+    enable_servo(ELEVATOR);
+    set_servo_position(ELEVATOR,ELEVATOR_VERTICAL);
+    //set_servo_from_to(ELEVATOR,CLAW_GRAB,CLAW_RELEASE);
+    // disable_servos(CLAW);
+
+    ao();          
+}
+void armParallel(){
+    enable_servo(ARM);
+    set_servo_position(ARM,ARM_PARALLEL);
+    //set_servo_from_to(ELEVATOR,CLAW_GRAB,CLAW_RELEASE);
+    // disable_servos(CLAW);
+
+    ao();          
+}
+void moveBackwards(){
+    set_wheel_velocities(-200,-200);
+    msleep(1500);
+    create_stop();
+}
+void moveForwardWithTram(){
+    set_wheel_velocities(201,210);
+    msleep(2000);
+    create_stop();
+}
+void moveShort_4(){
+    set_wheel_velocities(250,250);
+    msleep(1250);
+    create_stop();
+}
+void moveBackTillWhite(){
+    int left=get_create_lcliff_amt();
+
+    int right=get_create_rcliff_amt();
+
+    printf("left = %d \n", left);
+    printf("right = %d \n", right);
+
+    while(!(left>2000) || !(right>2000)){
+        // printf("left = %d \n", left);
+        // printf("right = %d \n", right);
+        if(left>2000){
+            set_wheel_velocities(-50,10);
+        }
+        else if(right>2000){
+            set_wheel_velocities(10,-50);
+        }
+        else{
+            set_wheel_velocities(-50,-50);
+        }
+
+        left= get_create_lcliff_amt();
+        right= get_create_rcliff_amt();
+        msleep(1);
+
+
+
+    }
+
+    create_stop();
+
+}
+void waitForSmallBot(){
+    msleep(60000);
+    create_stop();
+
+}
+void alignWithTapeForward(){
+    int left=get_create_lcliff_amt();
+
+    int right=get_create_rcliff_amt();
+
+    printf("left = %d \n", left);
+    printf("right = %d \n", right);
+
+    while(!(left<2000) || !(right<2000)){
+        // printf("left = %d \n", left);
+        // printf("right = %d \n", right);
+        if(left<2000){
+            set_wheel_velocities(50,-30);
+        }
+        else if(right<2000){
+            set_wheel_velocities(-30,50);
+        }
+        else{
+            set_wheel_velocities(75,75);
+        }
+
+        left= get_create_lcliff_amt();
+        right= get_create_rcliff_amt();
+        msleep(1);
+
+
+
+    }
+
+    create_stop();
+
+}
+void moveShort_5(){
+    set_wheel_velocities(250,250);
+    msleep(600);
+    create_stop();
+}
+
+void armMax(){
+    enable_servo(ARM);
+    set_servo_position(ARM,ARM_MAX);
+    //set_servo_from_to(ELEVATOR,CLAW_GRAB,CLAW_RELEASE);
+    // disable_servos(CLAW);
+
+    ao();          
+}
+void moveAlongtape_2(){
+    int left=get_create_lcliff_amt();
+    int right = get_create_rcliff_amt();
+
+    int leftFront=get_create_lfcliff_amt();
+    int rightFront = get_create_rfcliff_amt();
+    printf("left = %d \n", leftFront);
+    printf("right = %d \n", rightFront);
+    int black =2000;
+
+    while(right>2000){
+        if(leftFront< black && rightFront<black){
+            set_wheel_velocities(-400,-400);
+        }else if( leftFront> black){
+            set_wheel_velocities(-250,-300);
+        }else if(rightFront > black){
+            set_wheel_velocities(-300,-250);
+        }
+        left=get_create_lcliff_amt();
+        // right = get_create_rcliff_amt();
+        leftFront=get_create_lfcliff_amt();
+        rightFront = get_create_rfcliff_amt();
+        msleep(1);
+
+    }
+
+}
+void moveShort_6(){
+    set_wheel_velocities(-250,-250);
+    msleep(2000);
+    create_stop();
+}
+void elevatorDunk_2(){
+     enable_servo(ELEVATOR);
+    set_servo_from_to(ELEVATOR,ELEVATOR_LIFT,ELEVATOR_DUNK_2);
+    ao();
+}
+
+
+
+
