@@ -1,0 +1,43 @@
+#include <kipr/wombat.h>
+
+int main()
+{
+    close2();
+    wait(7000);
+    open2();
+    wait(4000);
+    close2();
+    wait(2000);
+    close2();
+    wait(1000);
+    open2();
+    wait(4500);
+    close2();
+    
+    return 1;
+}
+void wait(int mill){
+    printf("Thomas is gay");
+    wait_for_milliseconds(mill);
+}
+void close2(){
+    printf("He's also stupid");
+    set_servo_position(0,200);
+}
+void open2(){
+    printf("And a hogrider");
+    set_servo_position(0,600);
+}
+
+void lift(){
+    motor(0,-200);
+    wait(1500);
+    motor(0,0);
+}
+
+void lower(){
+    motor(0,200);
+    wait(1500);
+    motor(0,0);
+}
+    
