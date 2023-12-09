@@ -2,42 +2,49 @@
 
 int main()
 {
+    enable_servos();
+    set_servo_position(0,1900);
+    wait(10500);
     close2();
-    wait(7000);
+    wait(3500);
     open2();
-    wait(4000);
-    close2();
-    wait(2000);
-    close2();
-    wait(1000);
+    wait(6000);
+    lift();
+    wait(5500);
     open2();
-    wait(4500);
+    wait(100);
     close2();
+    wait(6500);
+    open2();
+    wait(10000);
+    close2();
+    wait(5000);
+    open2();
     
     return 1;
 }
 void wait(int mill){
-    printf("Thomas is gay");
     wait_for_milliseconds(mill);
 }
 void close2(){
-    printf("He's also stupid");
     set_servo_position(0,200);
 }
 void open2(){
-    printf("And a hogrider");
-    set_servo_position(0,600);
+    set_servo_position(0,900);
 }
 
 void lift(){
-    motor(0,-200);
-    wait(1500);
+    motor(0,-65);
+    wait(1250);
     motor(0,0);
 }
 
 void lower(){
-    motor(0,200);
-    wait(1500);
+    motor(0,65);
+    wait(1250);
     motor(0,0);
 }
     
+
+
+
