@@ -2,7 +2,7 @@
 
 int main
 {
-    //Start with light - 1 POINT
+    //Start with light - .5 POINT
     while(digital(0) == 0)
     {
         msleep(50);
@@ -26,7 +26,7 @@ int main
     fd(1);
     msleep(2000);
 
-    //Give 'im a proper shmacking - 1.5 POINTS
+    //Give 'im a proper shmacking - 1 POINTS
     enable_servos();
     set_servo_position(0, /*However much it is*/ 500);
 
