@@ -14,5 +14,7 @@ int main()
     val = digital(0) == 0 /*Returns 1 if button is pressed*/
 
     //Tophat (Yet to figure out)
+
+    //Infrared (Yet to figure out
     
 }
