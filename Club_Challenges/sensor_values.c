@@ -16,5 +16,7 @@ int main()
     //Tophat (Yet to figure out)
 
     //Infrared (Yet to figure out
-    
+    val = analog(0) > 2500 /* See black*/
+    val = analog(0) < 2500 /*See white*/
+    val = analog(0) == 2500 /*See gray*/
 }
