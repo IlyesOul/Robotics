@@ -17,6 +17,6 @@ int main()
 
     //Infrared (Yet to figure out
     val = analog(0) > 2500 /* See black*/
-    val = analog(0) < 2500 /*See white*/
-    val = analog(0) == 2500 /*See gray*/
+    val = analog(0) < 1500 /*See white*/
+    val = analog(0) < 2500 && analog(0) > 1500 /*See gray*/
 }
