@@ -16,7 +16,6 @@ int main()
     //Tophat (Yet to figure out)
 
     //Infared (Yet to figure out
-    val = analog(0) > 2500 /* See black*/
-    val = analog(0) < 1500 /*See white*/
-    val = analog(0) < 2500 && analog(0) > 1500 /*See gray*/
+    val = analog(0) > 3800 /* See black*/
+    
 }
