@@ -14,8 +14,10 @@ int main()
     val = digital(0) == 0 /*Returns 1 if button is pressed*/
 
     //Tophat
-    val = analog(0) > 2200 /*See black */
+    val = analog(0) > 3200 /*See black */
+    val = analog(0) < 400 /*See red*/
 
     //Infared 
-    val = analog(0) > 3800 /* See black*/
+    val = analog(0) > 3600 /* See black*/
+    val = analog(0) <= 300 /*See red*/
 }
