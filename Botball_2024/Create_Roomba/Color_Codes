@@ -1,1 +1,3 @@
-
+// IR Codes
+if value > 1600 then black
+if value <= 1600 then white
