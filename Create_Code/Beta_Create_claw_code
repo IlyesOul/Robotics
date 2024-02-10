@@ -1,4 +1,5 @@
 #include <kipr/wombat.h>
+#include <pthread.h> 
 void lift0(int t);
 void lower0(int t);
 void lift1(int t);
@@ -9,19 +10,28 @@ void lower2(int t);
 
 int main()
 {
-    //lift0(1000);
-    //lower0(1000);
-    lift1(5000);
-    /*lift1(1000);
+    printf("1\n");
+    lift0(1000);
+    printf("2\n");
+    lower0(1000);
+    printf("3\n");
+    lift1(1000);
+    printf("4\n");
+    lift1(1000);
+    printf("5\n");
     lower1(1000);
+    printf("6\n");
     lift2(2000);
-    lower2(2000);*/
+    printf("7\n");
+    lower2(2000);
+    printf("8\n");
     return 0;
 }
 void lift0(int t){
-    t-=50;
-    msleep(10);
+    t-=75;
+    msleep(5);
     move_at_velocity(0,0);
+    msleep(5);
     move_at_velocity(0,500);
     double count=0,pos=gmpc(0);
     while(count<t){
@@ -32,12 +42,13 @@ void lift0(int t){
         count+=t/500.0;
     }
     move_at_velocity(0,0);
-    msleep(40);
+    msleep(65);
 }
 void lower0(int t){
-    t-=50;
-    msleep(10);
+    t-=75;
+    msleep(5);
     move_at_velocity(0,0);
+    msleep(5);
     move_at_velocity(0,-500);
     double count=0,pos=gmpc(0);
     while(count<t){
@@ -48,12 +59,13 @@ void lower0(int t){
         count+=t/500.0;
     }
     move_at_velocity(0,0);
-    msleep(40);
+    msleep(65);
 }
 void lift1(int t){
-    t-=50;
-    msleep(10);
-    move_at_velocity(1,500);
+    t-=75;
+    msleep(5);
+    move_at_velocity(0,0);
+    msleep(5);
     double count=0,pos=gmpc(1);
     while(count<t){
         pos=gmpc(1);
@@ -63,10 +75,13 @@ void lift1(int t){
         count+=t/500.0;
     }
     move_at_velocity(1,0);
-    msleep(40);
+    msleep(65);
 }
 void lower1(int t){
-    t-=50;
+    t-=75;
+    msleep(5);
+    move_at_velocity(0,0);
+    msleep(5);
     move_at_velocity(1,-500);
     double count=0,pos=gmpc(1);
     while(count<t){
@@ -77,10 +92,13 @@ void lower1(int t){
         count+=t/500.0;
     }
     move_at_velocity(1,0);
-    msleep(40);
+    msleep(65);
 }
 void lift2(int t){
-    t-=50;
+    t-=75;
+    msleep(5);
+    move_at_velocity(0,0);
+    msleep(5);
     move_at_velocity(2,500);
     double count=0,pos=gmpc(2);
     while(count<t){
@@ -91,10 +109,13 @@ void lift2(int t){
         count+=t/500.0;
     }
     move_at_velocity(2,0);
-    msleep(40);
+    msleep(65);
 }
 void lower2(int t){
-    t-=50;
+    t-=75;
+    msleep(5);
+    move_at_velocity(0,0);
+    msleep(5);
     move_at_velocity(2,-500);
     double count=0,pos=gmpc(2);
     while(count<t){
@@ -105,7 +126,7 @@ void lower2(int t){
         count+=t/500.0;
     }
     move_at_velocity(2,0);
-    msleep(40);
+    msleep(65);
 }
 
 
