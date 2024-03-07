@@ -4,6 +4,12 @@ int main()
 {
     create3_connect();
     
+    //Arm base motor: motor(0);
+    //Second arm: motor(1);
+    //Third arm: motor(2);
+    
+    //Line up with tower
+    
     int black_counter = 0;
     
     while(black_counter != 2)
@@ -15,7 +21,6 @@ int main()
         if(analog_val > 3300)
         {
             black_counter+=1;
-            printf("nig1 detected");
             analog_val = analog(0);
         }
         //While black is seen move
@@ -29,15 +34,25 @@ int main()
         
     }
     
-    //Rotate
-        create3_rotate_degrees(-90, 180);
-    	create3_wait();
-    
-    while(analog(1)<2800){
-        create3_velocity_set_components(.25, 0);
-        printf(analog(1));
-    }
     create3_velocity_set_components(0, 0);
+    create3_drive_straight(-.20, 20);
+    
+    //Rotate
+    create3_rotate_degrees(-90, 180);
+    create3_wait();
+    
+    while(analog(1)<1525){
+        create3_velocity_set_components(.25, 0);
+    }
+    
+    //TODO - Pickup botguy
+    
+    //Move back and flick the tip
+    create3_drive_straight(-.50, 20);
+    //(Continued task TODO - Lower arm)
+    
+    
+    
     
     return 0;
 }
