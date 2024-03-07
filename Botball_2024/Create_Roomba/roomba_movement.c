@@ -4,7 +4,7 @@ int main()
 {
     create3_connect();
     
-    /*int black_counter = 0;
+    int black_counter = 0;
     
     while(black_counter != 2)
     {
@@ -27,12 +27,17 @@ int main()
             analog_val = analog(0);
         }
         
-    }*/
+    }
     
     //Rotate
-    //wait_for_milliseconds(3000);
-    while()
-    	create3_rotate_degrees(-90, 180);
+        create3_rotate_degrees(-90, 180);
+    	create3_wait();
+    
+    while(analog(1)<2800){
+        create3_velocity_set_components(.25, 0);
+        printf(analog(1));
+    }
+    create3_velocity_set_components(0, 0);
     
     return 0;
 }
