@@ -4,14 +4,18 @@ int main()
 {
     create3_connect();
     
+    msleep(3000);
+    
     //Arm base motor: motor(0);
     //Second arm: motor(1);
     //Third arm: motor(2);
     
-    //Line up with tower
     
+    
+    // PRIMARY FUNCTION: GET TO TOWER
     int black_counter = 0;
     
+    // SUBSECTION: MOVE UNTIL DETECTED TWO LINES
     while(black_counter != 2)
     {
         create3_velocity_set_components(-.25, 0);
@@ -34,23 +38,42 @@ int main()
         
     }
     
-    create3_velocity_set_components(0, 0);
-    create3_drive_straight(-.20, 20);
-    
-    //Rotate
+    //SUBSECTION: ROTATE TO TOWER
     create3_rotate_degrees(-90, 180);
     create3_wait();
     
-    while(analog(1)<1525){
+    //SUBSECTION: Move towards tower
+    
+    while(analog(1)<1475){
         create3_velocity_set_components(.25, 0);
     }
-    
+    /*
+     while(analog(1)<2800){
+        create3_velocity_set_components(.25, 0);
+    }
+    while(analog(1)>1200){
+        create3_velocity_set_components(-.25, 0);
+    }
+    */
     //TODO - Pickup botguy
     
-    //Move back and flick the tip
-    create3_drive_straight(-.50, 20);
-    //(Continued task TODO - Lower arm)
+    // PRIMARY FUNCTION: FLICKS TIPS
     
+ 
+    //SUBSECTION: Move until far enough
+    printf(analog(1));
+    
+    while(analog(1) > 2300)
+    {
+        printf(analog(1));
+        create3_velocity_set_components(-.25, 0);
+    }
+    
+    //SUBSECTION: Lower arm
+    
+    //SUBSECTION: Rotate left-to-right
+    
+   
     
     
     
