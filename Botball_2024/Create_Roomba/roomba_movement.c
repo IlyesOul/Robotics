@@ -22,13 +22,13 @@ int main()
         
         int analog_val = analog(0);
         //If black is seen
-        if(analog_val > 3300)
+        if(analog_val > 3700)
         {
             black_counter+=1;
             analog_val = analog(0);
         }
         //While black is seen move
-        while(analog_val > 3300){
+        while(analog_val > 3700){
   			
          	if ((black_counter == 2))
                 break;
@@ -38,15 +38,19 @@ int main()
         
     }
     
+    //SUBSECTION: Move forward past line
+    create3_drive_straight(-.2, .2);
+    
     //SUBSECTION: ROTATE TO TOWER
     create3_rotate_degrees(-90, 180);
     create3_wait();
     
     //SUBSECTION: Move towards tower
     
-    while(analog(1)<1475){
+    while(analog(1)<1450){
         create3_velocity_set_components(.25, 0);
     }
+    
     /*
      while(analog(1)<2800){
         create3_velocity_set_components(.25, 0);
@@ -57,7 +61,7 @@ int main()
     */
     //TODO - Pickup botguy
     
-    // PRIMARY FUNCTION: FLICKS TIPS
+    // PRIMARY FUNCTION: FLICKS CUBES
     
  
     //SUBSECTION: Move until far enough
@@ -72,10 +76,25 @@ int main()
     //SUBSECTION: Lower arm
     
     //SUBSECTION: Rotate left-to-right
-    
+    create3_rotate_degrees(-90, 180);
+    create3_wait();
+    create3_rotate_degrees(90, 180);
+    create3_wait();
+    create3_rotate_degrees(-90, 180);
+    create3_wait();
+    create3_rotate_degrees(90, 180);
+    create3_wait();
+
+    //SUBSECTION: Rotate backwards
+    create3_rotate_degrees(180, 180);
+
+    //PRIMARY FUNCTION: FLICKING SWITCH
+
+    //TODO: MOVE UNTIL DETECTING POLE WITH POOL NOODLES
+    while(analog(1) < 2500)
+    {
+        create3_velocity_set_components(.25, 0);
+    }
    
-    
-    
-    
     return 0;
 }
