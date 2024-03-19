@@ -39,7 +39,7 @@ int main()
     }
     
     //SUBSECTION: Move forward past line
-    create3_drive_straight(-.2, .2);
+    //create3_drive_straight(-.2, .2);
     
     //SUBSECTION: ROTATE TO TOWER
     create3_rotate_degrees(-90, 180);
@@ -51,21 +51,33 @@ int main()
         create3_velocity_set_components(.25, 0);
     }
     
-    /*
-     while(analog(1)<2800){
-        create3_velocity_set_components(.25, 0);
-    }
-    while(analog(1)>1200){
+    msleep(1000);
+    
+    //TODO - Pickup botguy
+    
+    
+    //Subsection: move back
+    while(analog(1) > 2200)
+    {
+        
         create3_velocity_set_components(-.25, 0);
     }
-    */
-    //TODO - Pickup botguy
+    
+    //Subsection: rotate left 90 degrees
+    
+    	create3_rotate_degrees(-90, 180);
+    
+    	//TODO: Drop Botguy
+    
+    //Subsection: rotate right 90 degrees
+    	msleep(3000);
+    	create3_rotate_degrees(90, 180);
     
     // PRIMARY FUNCTION: FLICKS CUBES
     
  
     //SUBSECTION: Move until far enough
-    printf(analog(1));
+    
     
     while(analog(1) > 2300)
     {
@@ -95,6 +107,6 @@ int main()
     {
         create3_velocity_set_components(.25, 0);
     }
-   
+   printf("Thomas is gay");
     return 0;
 }
