@@ -39,7 +39,11 @@ int main()
     }
     
     //SUBSECTION: Move forward past line
-    //create3_drive_straight(-.2, .2);
+   	msleep(1000);
+    while(analog(2) > 1300)
+    {
+        create3_velocity_set_components(-.05, 0);
+    }
     
     //SUBSECTION: ROTATE TO TOWER
     create3_rotate_degrees(-90, 180);
@@ -47,7 +51,7 @@ int main()
     
     //SUBSECTION: Move towards tower
     
-    while(analog(1)<1450){
+    while(analog(1)<1250){
         create3_velocity_set_components(.25, 0);
     }
     
@@ -57,7 +61,7 @@ int main()
     
     
     //Subsection: move back
-    while(analog(1) > 2200)
+    while(analog(1) > 2500)
     {
         
         create3_velocity_set_components(-.25, 0);
@@ -103,10 +107,14 @@ int main()
     //PRIMARY FUNCTION: FLICKING SWITCH
 
     //TODO: MOVE UNTIL DETECTING POLE WITH POOL NOODLES
-    while(analog(1) < 2500)
-    {
+
         create3_velocity_set_components(.25, 0);
-    }
-   printf("Thomas is gay");
+    	msleep(2000);
+    	create3_rotate_degrees(90, 180);
+    	create3_wait();
+    	while(analog(1)<1500){
+            create3_velocity_set_components(.25, 0);
+    		create3_velocity_set_components(-.25, 0);
+        }
     return 0;
 }
