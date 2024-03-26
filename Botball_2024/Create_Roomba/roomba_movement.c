@@ -10,10 +10,6 @@ int main()
     //Second arm: motor(1);
     //Third arm: motor(2);
     
-    while(analog(2)<1800){
-        create3_velocity_set_components(-.25, 0);
-    }
-    /*
     // PRIMARY FUNCTION: GET TO TOWER
     int black_counter = 0;
     
@@ -46,7 +42,7 @@ int main()
     {
         create3_velocity_set_components(-.05, 0);
     }
-    */
+    
     //SUBSECTION: ROTATE TO TOWER
     create3_rotate_degrees(-90, 180);
     create3_wait();
@@ -114,7 +110,7 @@ int main()
     	msleep(2000);
     	//create3_rotate_degrees(90, 180);
     	//create3_wait();
-    	while(analog(1)<1500){
+    	while(analog(1)<1750){
             create3_velocity_set_components(.25, 0);
             //msleep(2000);
     		//create3_velocity_set_components(-.25, 0);
