@@ -1,5 +1,4 @@
 #include <kipr/wombat.h>
-#include <pthread.h> 
 void lift0(int t);
 void lower0(int t);
 void lift1(int t);
@@ -10,6 +9,7 @@ void lower2(int t);
 
 int main()
 {
+    //Code to test all claw joints to see if they move.  This works as a class so this method is only for testing purposes
     printf("1\n");
     lift0(1000);
     printf("2\n");
@@ -27,6 +27,9 @@ int main()
     printf("8\n");
     return 0;
 }
+//turn motor plug in port 0 for t ms
+//has built in safety to prevent motor from burning out(same for rest of methods)
+//lift the bottem part of the arm with the longest metal piece 
 void lift0(int t){
     t-=75;
     msleep(5);
@@ -44,6 +47,8 @@ void lift0(int t){
     move_at_velocity(0,0);
     msleep(65);
 }
+//turn motor plug in port 0 for t ms
+//lowers down the bottem part of the arm with the longest metal piece 
 void lower0(int t){
     t-=75;
     msleep(5);
@@ -61,11 +66,14 @@ void lower0(int t){
     move_at_velocity(0,0);
     msleep(65);
 }
+//turn motor plug in port 1 for t ms
+//lift up the middle part of the arm with the middle length metal piece 
 void lift1(int t){
     t-=75;
     msleep(5);
-    move_at_velocity(0,0);
+    move_at_velocity(1,0);
     msleep(5);
+    move_at_velocity(1,500);
     double count=0,pos=gmpc(1);
     while(count<t){
         pos=gmpc(1);
@@ -77,10 +85,12 @@ void lift1(int t){
     move_at_velocity(1,0);
     msleep(65);
 }
+//turn motor plug in port 1 for t ms
+//lower the middle part of the arm with the middle length metal piece 
 void lower1(int t){
     t-=75;
     msleep(5);
-    move_at_velocity(0,0);
+    move_at_velocity(1,0);
     msleep(5);
     move_at_velocity(1,-500);
     double count=0,pos=gmpc(1);
@@ -94,10 +104,12 @@ void lower1(int t){
     move_at_velocity(1,0);
     msleep(65);
 }
+//turn motor plug in port 2 for t ms
+//lift up the top part of the arm with the short length metal piece 
 void lift2(int t){
     t-=75;
     msleep(5);
-    move_at_velocity(0,0);
+    move_at_velocity(2,0);
     msleep(5);
     move_at_velocity(2,500);
     double count=0,pos=gmpc(2);
@@ -111,10 +123,12 @@ void lift2(int t){
     move_at_velocity(2,0);
     msleep(65);
 }
+//turn motor plug in port 2 for t ms
+//lower the top part of the arm with the short length metal piece 
 void lower2(int t){
     t-=75;
     msleep(5);
-    move_at_velocity(0,0);
+    move_at_velocity(2,0);
     msleep(5);
     move_at_velocity(2,-500);
     double count=0,pos=gmpc(2);
