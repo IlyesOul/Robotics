@@ -27,8 +27,8 @@ int main()
     printf("8\n");
     return 0;
 }
-//turn motor plug in port 0 for t ms
-//has built in safety to prevent motor from burning out(same for rest of methods)
+//turn motor pluged in port 0 for t ms
+//This has a built in safety to prevent motor from burning out (same for rest of methods)
 //lift the bottem part of the arm with the longest metal piece 
 void lift0(int t){
     t-=75;
@@ -47,7 +47,7 @@ void lift0(int t){
     move_at_velocity(0,0);
     msleep(65);
 }
-//turn motor plug in port 0 for t ms
+//turns the motor plug in port 0 for t ms
 //lowers down the bottem part of the arm with the longest metal piece 
 void lower0(int t){
     t-=75;
@@ -66,7 +66,7 @@ void lower0(int t){
     move_at_velocity(0,0);
     msleep(65);
 }
-//turn motor plug in port 1 for t ms
+//turns the motor plug in port 1 for t ms
 //lift up the middle part of the arm with the middle length metal piece 
 void lift1(int t){
     t-=75;
