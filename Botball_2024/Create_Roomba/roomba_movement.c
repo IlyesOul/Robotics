@@ -1,9 +1,12 @@
 #include <kipr/wombat.h>
+#include </home/kipr/Documents/KISS/Default User/beta_claw/src/main.c>
 
 int main()
 {
     create3_connect();
+    enable_servos();
     
+    set_servo_position(0, 500);
     msleep(3000);
     
     //Arm base motor: motor(0);
@@ -38,7 +41,7 @@ int main()
     
     //SUBSECTION: Move forward past line
    	msleep(1000);
-    while(analog(2) > 1300)
+    while(analog(2) > 1100)
     {
         create3_velocity_set_components(-.05, 0);
     }
@@ -49,14 +52,22 @@ int main()
     
     //SUBSECTION: Move towards tower
     
-    while(analog(1)<1250){
+    while(analog(1)<1200){
         create3_velocity_set_components(.25, 0);
     }
     
     msleep(1000);
     
     //TODO - Pickup botguy
+    lower1(1900);
+    msleep(2250);
+    lower2(1300);
     
+    set_servo_position(0, 2400);
+    
+    
+    lift2(1300);
+    lift1(1900);
     
     //Subsection: move back
     while(analog(1) > 2500)
