@@ -52,25 +52,25 @@ int main()
     
     //SUBSECTION: Move towards tower
     
-    while(analog(1)<1200){
+   while(analog(1)<2600){
         create3_velocity_set_components(.25, 0);
     }
     
     msleep(1000);
     
     //TODO - Pickup botguy
-    lower1(1900);
+    lower1(2000,500);
     msleep(2250);
-    lower2(1300);
+    lower2(1300,500);
     
-    set_servo_position(0, 2400);
+    set_servo_position(0, 1300);
     
     
-    lift2(1300);
-    lift1(1900);
+    lift2(1300,500);
+    lift1(2000,500);
     
     //Subsection: move back
-    while(analog(1) > 2500)
+    while(analog(1) > 2000)
     {
         
         create3_velocity_set_components(-.25, 0);
