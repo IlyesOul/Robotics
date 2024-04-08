@@ -52,7 +52,7 @@ int main()
     
     //SUBSECTION: Move towards tower
     
-   while(analog(1)<2600){
+   while(analog(1)<2200){
         create3_velocity_set_components(.25, 0);
     }
     
