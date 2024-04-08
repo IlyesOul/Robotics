@@ -30,18 +30,20 @@ int main()
 //turn motor pluged in port 0 for t ms
 //This has a built in safety to prevent motor from burning out (same for rest of methods)
 //lift the bottem part of the arm with the longest metal piece 
-void lift0(int t){
+void lift0(int t,int v){
     t-=75;
     msleep(5);
     move_at_velocity(0,0);
     msleep(5);
-    move_at_velocity(0,500);
+    move_at_velocity(0,v);
     double count=0,pos=gmpc(0);
     while(count<t){
         pos=gmpc(0);
         msleep(t/500.0);
-        if(gmpc(0)<pos)
+        if(gmpc(0)<pos){
             move_at_velocity(0,0);
+            t+=100000;
+        }
         count+=t/500.0;
     }
     move_at_velocity(0,0);
@@ -49,18 +51,20 @@ void lift0(int t){
 }
 //turns the motor plug in port 0 for t ms
 //lowers down the bottem part of the arm with the longest metal piece 
-void lower0(int t){
+void lower0(int t,int v){
     t-=75;
     msleep(5);
     move_at_velocity(0,0);
     msleep(5);
-    move_at_velocity(0,-500);
+    move_at_velocity(0,-v);
     double count=0,pos=gmpc(0);
     while(count<t){
         pos=gmpc(0);
         msleep(t/500.0);
-        if(gmpc(0)>pos)
+        if(gmpc(0)>pos){
             move_at_velocity(0,0);
+            t+=100000;
+        }
         count+=t/500.0;
     }
     move_at_velocity(0,0);
@@ -68,18 +72,22 @@ void lower0(int t){
 }
 //turns the motor plug in port 1 for t ms
 //lift up the middle part of the arm with the middle length metal piece 
-void lift1(int t){
+void lift1(int t,int v){
     t-=75;
     msleep(5);
     move_at_velocity(1,0);
     msleep(5);
-    move_at_velocity(1,500);
+    move_at_velocity(1,v);
     double count=0,pos=gmpc(1);
     while(count<t){
         pos=gmpc(1);
+        printf("%f",pos);
+        printf("\n");
         msleep(t/500.0);
-        if(gmpc(1)<pos)
+        if(gmpc(1)<pos){
             move_at_velocity(1,0);
+            t+=100000;
+    	}
         count+=t/500.0;
     }
     move_at_velocity(1,0);
@@ -87,18 +95,20 @@ void lift1(int t){
 }
 //turn motor plug in port 1 for t ms
 //lower the middle part of the arm with the middle length metal piece 
-void lower1(int t){
+void lower1(int t,int v){
     t-=75;
     msleep(5);
     move_at_velocity(1,0);
     msleep(5);
-    move_at_velocity(1,-500);
+    move_at_velocity(1,-v);
     double count=0,pos=gmpc(1);
     while(count<t){
         pos=gmpc(1);
         msleep(t/500.0);
-        if(gmpc(1)>pos)
+        if(gmpc(1)>pos){
             move_at_velocity(1,0);
+            t+=100000;
+        }
         count+=t/500.0;
     }
     move_at_velocity(1,0);
@@ -106,18 +116,20 @@ void lower1(int t){
 }
 //turn motor plug in port 2 for t ms
 //lift up the top part of the arm with the short length metal piece 
-void lift2(int t){
+void lift2(int t,int v){
     t-=75;
     msleep(5);
-    move_at_velocity(2,0);
+    move_at_velocity(0,0);
     msleep(5);
-    move_at_velocity(2,500);
+    move_at_velocity(2,v);
     double count=0,pos=gmpc(2);
     while(count<t){
         pos=gmpc(2);
         msleep(t/500.0);
-        if(gmpc(2)<pos)
+        if(gmpc(2)<pos){
             move_at_velocity(2,0);
+            t+=100000;
+    	}
         count+=t/500.0;
     }
     move_at_velocity(2,0);
@@ -125,22 +137,23 @@ void lift2(int t){
 }
 //turn motor plug in port 2 for t ms
 //lower the top part of the arm with the short length metal piece 
-void lower2(int t){
+void lower2(int t,int v){
     t-=75;
     msleep(5);
-    move_at_velocity(2,0);
+    move_at_velocity(0,0);
     msleep(5);
-    move_at_velocity(2,-500);
+    move_at_velocity(2,-v);
     double count=0,pos=gmpc(2);
     while(count<t){
         pos=gmpc(2);
         msleep(t/500.0);
-        if(gmpc(2)>pos)
+        if(gmpc(2)>pos){
             move_at_velocity(2,0);
+            t+=100000;
+    	}
         count+=t/500.0;
     }
     move_at_velocity(2,0);
     msleep(65);
 }
-
 
