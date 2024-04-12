@@ -16,8 +16,8 @@ int main()
     //Third arm: motor(2);
 
     // Erect the arm
-    lower0(2150, 500);
-    lower1(2150, 500);
+    //lower0(2150, 500);
+    //lower1(2200, 500);
 
     // PRIMARY FUNCTION: GET TO TOWER
     int black_counter = 0;
@@ -54,18 +54,16 @@ int main()
 
     //SUBSECTION: ROTATE TO TOWER
     create3_rotate_degrees(-90, 180);
-    create3_wait();
 
+    printf("here");
+    
     //SUBSECTION: Move towards tower
-
-    int analog_val = analog(2);
-    while(analog_val <2200){
+    while(analog(2) <2200){
         create3_velocity_set_components(.25, 0);
-        analog_val = analog(2);
-        printf("Analog_2 = ", analog_val);
+        printf("%d", analog(2));
     }
 
-    msleep(1000);
+    msleep(2500);
 
     //TODO - Pickup botguy
     /*lower1(2000,500);
@@ -75,19 +73,18 @@ int main()
     set_servo_position(0, 1300);
 
 
-    /*lift2(1300,500);
-    lift1(2000,500);*/
+    lift2(1300,500);
+    lift1(2000,500);
 
     //Subsection: move back
-    while(analog(1) > 2000)
+    while(analog(2) > 2300)
     {
-
         create3_velocity_set_components(-.25, 0);
     }
 
     //Subsection: rotate left 90 degrees
-
     create3_rotate_degrees(-90, 180);
+    create3_wait();
 
     //TODO: Drop Botguy
     set_servo_position(0, 500);
