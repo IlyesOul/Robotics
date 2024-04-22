@@ -9,15 +9,15 @@ int main()
     enable_servos();
 
     set_servo_position(0, 500);
-    //msleep(7000);
+    
 
     //Arm base motor: motor(0);
     //Second arm: motor(1);
     //Third arm: motor(2);
 
     // Erect the arm
-    //lower0(2150, 500);
-    //lower1(2200, 500);
+    lower0(2150, 500);
+    lower1(2000, 500);
 
     // PRIMARY FUNCTION: GET TO TOWER
     int black_counter = 0;
@@ -58,24 +58,24 @@ int main()
     printf("here");
     
     //SUBSECTION: Move towards tower
-    while(analog(2) <2200){
+    while(analog(2) <2000){
         create3_velocity_set_components(.25, 0);
         printf("%d", analog(2));
     }
 
     msleep(2500);
-
+/*
     //TODO - Pickup botguy
-    /*lower1(2000,500);
+    lower1(2000,500);
     msleep(2250);
     lower2(1300,500);*/
 
-    set_servo_position(0, 1300);
-
-
+	lift0(1200, 500);
     lift2(1300,500);
     lift1(2000,500);
-
+    
+    set_servo_position(0, 1300);
+	/*
     //Subsection: move back
     while(analog(2) > 2300)
     {
@@ -133,6 +133,6 @@ int main()
         //msleep(2000);
         //create3_velocity_set_components(-.25, 0);
         //msleep(4000);
-    }
+    }*/
     return 0;
 }
