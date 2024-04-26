@@ -7,22 +7,21 @@ int main()
 
     enable_servos();
 
-    set_servo_position(0, 300);
-    
-	//while(digital(0)==0){
-    //}
-    //Arm base motor: motor(0);
-    //Second arm: motor(1);
-    //Third arm: motor(2);
+    set_servo_position(0, 200);
 
-    //decrease motor0
-    //increase motor1
-    //lower motor2
+    //while(digital(0)==0){
+    //}
     
     // Erect the arm
-    lift0(4500, 500);
-    lift1(2500, 500);
-    lift2(700, 500);
+    lift0(4500, 600);
+    lift1(4600, 600);
+    lift2(500, 600);
+
+    //Folding the arm after moving it
+    //msleep(20000);
+    //lower0(4500, 600);
+    //lower1(4500, 600);
+    // lower2(500, 600);
 
     // PRIMARY FUNCTION: GET TO TOWER
     int black_counter = 0;
@@ -30,6 +29,7 @@ int main()
     // SUBSECTION: MOVE UNTIL DETECTED TWO LINES
     while(black_counter != 2)
     {
+
         create3_velocity_set_components(-.25, 0);
 
         int analog_val = analog(0);
@@ -50,101 +50,72 @@ int main()
 
     }
 
-    //SUBSECTION: Move forward past line
+    //SUBSECTION: Move forward past line to align with pole
     msleep(1000);
     while(analog(1) > 1300)
     {
         create3_velocity_set_components(-.05, 0);
     }
-	
-    //create3_drive_straight(-.05,0.25);
-    //create3_wait();
-    
+
+
     //SUBSECTION: ROTATE TO TOWER
-    create3_rotate_degrees(-102, 180);
+    create3_rotate_degrees(-100, 180);
     create3_wait();
-    
-    /*lift1(2800,500);
-    
-    lift2(300,500);
-    
-    lift0(2000,500);*/
-    
-    
-    
+
     //SUBSECTION: Move towards tower
-    create3_drive_straight(.29,0.5);
+    create3_drive_straight(.255,0.5);
     create3_wait();
-	
-    set_servo_position(0, 1350);
+
     //TODO - Pickup botguy
-    
-    //lower2(2300,500);
-    //msleep(2250);
-    
-    /*set_servo_position(0, 1350);
-	msleep(2250);
-   
-    lift1(4500,500);
-    msleep(2250);
-    
-    lift2(2000,500);
-    msleep(2250);
-    
-    //Subsection: move back
-    while(analog(2) > 2300)
-    {
-        create3_velocity_set_components(-.25, 0);
-    }
-
-    //Subsection: rotate left 90 degrees
-    create3_rotate_degrees(-90, 180);
-    create3_wait();
-
-    //TODO: Drop Botguy
-    //set_servo_position(0, 300);
-
-    //Subsection: rotate right 90 degrees
-
-    // PRIMARY FUNCTION: FLICKS CUBES
-
-
-    //SUBSECTION: Move until far enough
-
-    while(analog(1) > 2300)
-    {
-        printf(analog(1));
-        create3_velocity_set_components(-.25, 0);
-    }
-
-    //SUBSECTION: Lower arm
-
-    //SUBSECTION: Rotate left-to-right
-    create3_rotate_degrees(-90, 180);
-    create3_wait();
-    create3_rotate_degrees(90, 180);
-    create3_wait();
-    create3_rotate_degrees(-90, 180);
-    create3_wait();
-    create3_rotate_degrees(90, 180);
-    create3_wait();
-
-    //SUBSECTION: Rotate backwards
-    create3_rotate_degrees(180, 180);
-
-    //PRIMARY FUNCTION: FLICKING SWITCH
-
-    //TODO: MOVE UNTIL DETECTING POLE WITH POOL NOODLES
-
-    //create3_velocity_set_components(.25, 0);
     msleep(2000);
-    //create3_rotate_degrees(90, 180);
-    //create3_wait();
-    //while(analog(1)<1750){
-        //create3_velocity_set_components(.25, 0);
-        //msleep(2000);
-        //create3_velocity_set_components(-.25, 0);
-        //msleep(4000);
-    //}*/
+    lower2(1750, 500);
+    msleep(1000);
+    set_servo_position(0, 1450);
+    msleep(500);
+    
+    //Back up to pole
+    create3_drive_straight(-.2, .25);
+    
+    //Rotate towards noodle corner
+    create3_rotate_degrees(-80, 180);
+    
+    //move towards noodle
+    create3_drive_straight(.50, .25);
+    
+    //Rotate towards rock heap
+	create3_rotate_degrees(50, 180);
+    
+    //Move towards rock heap
+    create3_drive_straight(.25, .50);
+    create3_wait();
+    
+    //Drop cube in rock heap
+    set_servo_position(0, 200);
+    
+    //Rotate to octagon
+    create3_rotate_degrees(90, 180);
+    
+    //Move forward
+    create3_drive_straight(.15,.25);
+    
+    //Rotate left
+    create3_rotate_degrees(35, 180);
+    
+    //Move forward a bit more
+    create3_drive_straight(.23, .25);
+    
+    //Increase height of motor2
+    lift2(800,500);
+    
+    //Rotate right to smack cube
+    create3_rotate_degrees(-78, 75);
+
+    
+    //Move Forward
+    create3_drive_straight(.07, .25);
+    
+    //open claw
+    set_servo_position(0,200);
+    
     return 0;
 }
