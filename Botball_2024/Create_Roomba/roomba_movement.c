@@ -81,7 +81,7 @@ int main()
     //Rotate towards noodle corner
     create3_rotate_degrees(-80, 180);
     
-    //Delay for other bot
+    //Delay for other bots
     create3_drive_straight(-.3, .25);
     
     msleep(25000);
