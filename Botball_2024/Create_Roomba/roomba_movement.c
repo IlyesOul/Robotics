@@ -62,6 +62,8 @@ int main()
     
     //SUBSECTION: ROTATE TO TOWER
     create3_rotate_degrees(-100, 180);
+    //Phillip idea
+    //create3_rotate_degrees(-90, 270);
     create3_wait();
 
     //SUBSECTION: Move towards tower
@@ -72,6 +74,8 @@ int main()
     msleep(2000);
     lower2(1050, 500);
     msleep(1000);
+    //Phillip idea
+    //set_servo_position(0, 1600);
     set_servo_position(0, 1500);
     msleep(500);
 
@@ -93,7 +97,7 @@ int main()
     create3_rotate_degrees(60, 180);
 
     //Move towards rock heap
-    create3_drive_straight(.3, .50);
+    create3_drive_straight(.35, .50);
     create3_wait();
 
     //Drop cube in rock heap
