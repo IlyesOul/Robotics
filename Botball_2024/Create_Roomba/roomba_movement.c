@@ -116,7 +116,7 @@ int main()
     create3_wait();
 
     //Move forward
-    create3_drive_straight(.15,.25);
+    create3_drive_straight(.15,1);
     create3_wait();
 
     //Rotate left
