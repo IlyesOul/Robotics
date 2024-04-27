@@ -58,12 +58,14 @@ int main()
         create3_velocity_set_components(-.05, 0);
     }
 
+    create3_drive_straight(.07,0.75);
+    
     //SUBSECTION: ROTATE TO TOWER
     create3_rotate_degrees(-100, 180);
     create3_wait();
 
     //SUBSECTION: Move towards tower
-    create3_drive_straight(.27,0.5);
+    create3_drive_straight(.275,0.5);
     create3_wait();
 
     //TODO - Pickup cube
@@ -80,12 +82,12 @@ int main()
     create3_rotate_degrees(-80, 180);
     
     //Delay for other bot
-    create3_drive_straight(-.2, .25);
+    create3_drive_straight(-.3, .25);
     
     msleep(25000);
     
     //move towards noodle
-    create3_drive_straight(.7, .25);
+    create3_drive_straight(.8, .25);
     
     //Rotate towards rock heap
     create3_rotate_degrees(60, 180);
