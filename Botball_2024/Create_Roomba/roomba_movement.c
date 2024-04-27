@@ -7,8 +7,9 @@ int main()
 
     enable_servos();
 	
-    while(digital(0)==0){}
+    wait_for_light(5);
     
+    shut_down_in(115);
     
     msleep(10000);
 
@@ -69,17 +70,17 @@ int main()
     create3_wait();
 
     //SUBSECTION: Move towards tower
-    create3_drive_straight(.26,0.5);
+    create3_drive_straight(.255,0.5);
     create3_wait();
 
     //TODO - Pickup cube
     msleep(2000);
-    lower2(1600, 500);
+    lower2(1700, 500);
     msleep(1000);
     //Phillip idea
     set_servo_position(0, 1500);
     //set_servo_position(0, 1500);
-    msleep(500);
+    msleep(1000);
 
     //Back up to pole
     create3_drive_straight(-.2, .25);
@@ -104,7 +105,7 @@ int main()
     create3_wait();
 
     //Move towards rock heap
-    create3_drive_straight(.35, .50);
+    create3_drive_straight(.29, .50);
     create3_wait();
 
     //Drop cube in rock heap
@@ -161,14 +162,14 @@ int main()
     lower2(1500,500);
     
     //push cubes off to zone
-    create3_drive_straight(.1, .25);
+    create3_drive_straight(.1, 1);
     create3_wait();
     
     //lift 2nd arm
     lift2(1000,500);
     
     //move back
-    create3_drive_straight(-.15, .25);
+    create3_drive_straight(-.15, 1);
     create3_wait();
     
     //Rotate left to smack left cube
