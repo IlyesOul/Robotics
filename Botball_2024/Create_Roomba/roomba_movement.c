@@ -157,7 +157,7 @@ int main()
     create3_wait();
     
     //lower 2nd arm to level with cubes
-    lower2(2000,500);
+    lower2(1500,500);
     
     //push cubes off to zone
     create3_drive_straight(.1, .25);
