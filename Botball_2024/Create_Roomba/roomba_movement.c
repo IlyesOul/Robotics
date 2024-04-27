@@ -7,7 +7,10 @@ int main()
 
     enable_servos();
 
+    create3_audio_play(50, 1, 1);
+	
     while(digital(0)==0){}
+    
     
     msleep(10000);
 
