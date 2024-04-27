@@ -180,6 +180,10 @@ int main()
     //Rotate left to hit other cube
     create3_rotate_degrees(270, 180);
     create3_wait();
+
+    //360 noscope
+    create3_rotate_degrees(360, 95);
+    create3_wait();
     
     
     return 0;
