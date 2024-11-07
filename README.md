@@ -1,6 +1,6 @@
-This is the 2023-2024 MHS Robotics GitHub!
+This is the 2024-2025 MHS Robotics GitHub!
 
-The repo contains our current code for the 2024 botball competition in the "Botball_2024" folder.
+The repo contains our current code for the 2025 Botball competition in the "Botball_2025" folder.
 
 This repo also consists of old cold that we took "inspiration" from for our current code.
 
