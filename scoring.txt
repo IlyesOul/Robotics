@@ -1,0 +1,19 @@
+challange 1: 10
+  light 1 point
+  dont touch wall 2 points 
+  knock marker off by crash -2
+  hit marker but it is still on box +1
+  knock off is 3
+  drive back is 1 points
+  not using lane -2
+  robot to intinal state (intacted) +2
+  rotate whole: -1
+  dont rotate whole: +1
+challange 2 : 21
+  light 1 point
+  your color line detect +1*x
+  turn and robot in lane +2
+  Grab object:+3 
+  grab both: only 1 point
+  get to correct corner 3
+   intinal posistion 1
