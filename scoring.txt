@@ -1,14 +1,21 @@
-challange 1: 10
-  light 1 point
-  dont touch wall 2 points 
-  knock marker off by crash -2
-  hit marker but it is still on box +1
-  knock off is 3
-  drive back is 1 points
-  not using lane -2
-  robot to intinal state (intacted) +2
-  rotate whole: -1
-  dont rotate whole: +1
+Challenge 1 Evaluation Criteria: 10 total points
+Robot Performance (6 points)
+  Light: 1 point for successful activation
+  Avoiding Stack Collision: 2 points for avoiding collision
+  Marker Hit (Partial Success): 1 point for hitting marker while still on box (does not overlap with knock off)
+  Knock Off: 3 points for successfully knocking off marker
+Robot Control (1 points)
+  Rotate Whole: -1 point for unnecessary rotation
+  No Unnecessary Rotation: +1 point for maintaining control
+Explanation and Code (3 points)
+  Explanation of Robot Components: 3 points max for clear explanation
+    No Code: 0 points
+    Pseudo Code: 1 point for viable pseudo code
+    Functional Code: 1 point for working code
+    Component Explanation: 1 point for explaining component functionality 
+
+
+
 challange 2 : 21
   light 1 point
   your color line detect +1*x
