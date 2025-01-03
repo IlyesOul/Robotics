@@ -16,11 +16,19 @@ Explanation and Code (3 points)
 
 
 
-challange 2 : 21
-  light 1 point
-  your color line detect +1*x
-  turn and robot in lane +2
-  Grab object:+3 
-  grab both: only 1 point
-  get to correct corner 3
-   intinal posistion 1
+
+Challenge 2: 25 Points Maximum
+  Scoring (20 points maximum)
+    Light Detection: 1 point
+    Color Line Detection: 1 point per loop (*x)
+    Turn and Align Robot in Lane: 2 points per loop (2*x)
+    Grab Object and Move: 2 points per loop (2*x)
+    Grab Both Objects: 1 point per loop (*x)
+    Return to Home with Object: 3 points per loop (3*x)
+      Deduct 1 point if object touches the ground while moving
+    Initial Position without Object: 1 point
+Explanation (5 points maximum)
+  Code (2 points): Describe the programming approach used.
+  Hardware (2 points): Explain the hardware components used and how they contribute to the robot.
+  Adaptability (1 point): Describe how the code can be modified to detect different colors or directions.
+
