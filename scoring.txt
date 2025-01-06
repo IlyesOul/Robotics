@@ -32,3 +32,35 @@ Explanation (5 points maximum)
   Hardware (2 points): Explain the hardware components used and how they contribute to the robot.
   Adaptability (1 point): Describe how the code can be modified to detect different colors or directions.
 
+Challenge 3 (3 minutes time limit)
+Board is diveded in to 4 equal sections as described below
+Scoring
+  Light: 1 point
+  Poms: 20 poms total (Randomly Placed)
+    half a point each when brought home
+    0 everwhere else
+  Boxes: (Same spot every time)
+    Big Boxes: 4 boxes, 3 points each
+    Small Boxes: 8 boxes, 1.5 points each
+    50% points if in poms area
+    0 points if in botguy area
+Items on Tape: 0 points
+Botguy Multiplier: (Same spot on tower)
+  Knock off: x2
+  In box area: x3
+  In pom area: x4
+  In home: x7
+  (no Multiplier on tape or off board)
+Rules
+  Everything off the board is worth 0 points
+  Robot should not fully leave the board (atleast one wheel should always remain on the board)
+  Black tape is around the playing area and dividing each section
+Explanation Judging Criteria (6 max)
+  Code: 1.5 points
+  Hardware: 1.5 points
+  Strategy: 3 points 
+    Assessed as how complex the stratgy is plus how much of it was achived 
+    Submit as a short explanation on paper (Ask if more clarfaction is needed)
+
+
+
