@@ -1,0 +1,88 @@
+#include <kipr/wombat.h>
+
+/* TO DO: PICK UP PINK/GREEN IN ALL POSITIONS
+MAKE THE PART THAT GOES UP TO CUPS AND TURNS
+DETECT POLE COLOR AND PICK UP APPROPRIATE CUPS*/
+
+int main()
+{
+    camera_open();
+    camera_update();
+    enable_servos();
+    
+    // Default motor position
+    clear_motor_position_counter(0);
+    
+    if(get_object_count(0) > 0)
+    {
+        
+        if(get_object_center_x(0,0) < 388)
+        {
+         
+            while(get_object_center_x(0,0) < 388)
+            {
+                motor(2, 10);
+                motor(3, 10);
+                printf("Green Cup Position: %d\n", get_object_center_x(0,0));
+                camera_update();
+            }
+            
+            while(analog(1) <=1700)
+            {
+                motor(2, 75);
+                motor(3, -75);
+            }
+            freeze(2);
+            freeze(3);
+            set_servo_position(0,600);
+  			while(gmpc(0) > -1350)
+            {
+                motor(0, -100);
+            }
+            while(analog(1) <=2600)
+            {
+                motor(2,25);
+                motor(3, -25);
+            }
+            set_servo_position(0,1150);
+        }else if(get_object_center_x(0,0) > 388)
+        {
+            while(get_object_center_x(0,0) > 388)
+            {
+                motor(2, -10);
+                motor(3, -10);
+                printf("Green Cup Position: %d\n", get_object_center_x(0,0));
+                camera_update();
+            }
+            
+            while(analog(1) <=1700)
+            {
+                motor(2,75);
+                motor(3, -75);
+            }
+            freeze(2);
+            freeze(3);
+            set_servo_position(0,800);
+  			while(gmpc(0) > -1350)
+            {
+                motor(0, -100);
+            }
+            while(analog(1) <=2600)
+            {
+                motor(2,25);
+                motor(3, -25);
+            }
+            set_servo_position(0,1150);
+        }else if(300 <= get_object_center_x(0,0) && get_object_center_x(0,0) <=380)
+        {
+            printf("no hog riders allowed");
+        }
+            
+        
+        
+        
+    }
+    
+    
+    return 0;
+}
