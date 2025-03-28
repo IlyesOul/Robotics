@@ -6,19 +6,22 @@ DETECT POLE COLOR AND PICK UP APPROPRIATE CUPS*/
 
 int main()
 {
+    // Default values
     camera_open();
     camera_update();
     enable_servos();
     
     // Default motor position
     clear_motor_position_counter(0);
-    
+
+    //Check if objects exist in frame
     if(get_object_count(0) > 0)
     {
-        
+        //Check if cup in question is on left
         if(get_object_center_x(0,0) < 388)
         {
-         
+    
+             // Rotate until object is straight ahead
             while(get_object_center_x(0,0) < 388)
             {
                 motor(2, 10);
@@ -26,7 +29,7 @@ int main()
                 printf("Green Cup Position: %d\n", get_object_center_x(0,0));
                 camera_update();
             }
-            
+            //Move to cup
             while(analog(1) <=1700)
             {
                 motor(2, 75);
@@ -35,6 +38,7 @@ int main()
             freeze(2);
             freeze(3);
             set_servo_position(0,600);
+            //Lower cup
   			while(gmpc(0) > -1350)
             {
                 motor(0, -100);
@@ -45,8 +49,10 @@ int main()
                 motor(3, -25);
             }
             set_servo_position(0,1150);
+        //If object is on right of frame
         }else if(get_object_center_x(0,0) > 388)
         {
+            //Rotate until object is straight ahead
             while(get_object_center_x(0,0) > 388)
             {
                 motor(2, -10);
@@ -54,7 +60,7 @@ int main()
                 printf("Green Cup Position: %d\n", get_object_center_x(0,0));
                 camera_update();
             }
-            
+            //Move forward
             while(analog(1) <=1700)
             {
                 motor(2,75);
@@ -63,6 +69,7 @@ int main()
             freeze(2);
             freeze(3);
             set_servo_position(0,800);
+            //Lower cup
   			while(gmpc(0) > -1350)
             {
                 motor(0, -100);
