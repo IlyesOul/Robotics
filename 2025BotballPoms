@@ -1,0 +1,301 @@
+#include <kipr/wombat.h>
+//Analog(0) = light detection
+//Analog(1) = color sensor
+//Analog(2) = distance sensor
+
+
+//Motor(0) = right wheel
+//Motor(1) = left wheel
+
+
+//Servo(0) = Pulley
+//Servo(1) = claw
+
+
+//Constants
+const int rVelo=1350; //General wheel velocities
+const int lVelo=1400;
+const int blackTape=3500;
+const int maxPulley=2047;
+const int closeClaw=0;
+
+
+//Variables
+int atPVC=0;
+int passedTape=0;
+
+
+//Declarations
+void starting();
+void pomSteps(int turnTime1,int turnTimeRight, int forwardTime, int forwardTime2, int turnTime2, int clawAmount);
+void pomStepsRand(int reverseTime, int forwardTime, int forwardTime2, int turnTime1);
+void reverse(int reverseTime);
+
+
+
+
+int main()
+{
+    enable_servos();
+    set_servo_position(1,100);
+    set_servo_position(0,2047);
+    msleep(1000);
+    //wait_for_light(0);
+    shut_down_in(120);
+    printf("Activated\n");
+   
+    starting();
+    pomSteps(0,0,2400,1500,2150,800); //The first one is zero, second needs to be found, third needs to be found, fourth is zero
+    reverse(750);
+    pomSteps(750,0,750,0,2200,550);
+    pomSteps(0,200,3000,1750,2100,800);
+   
+    /*pomStepsRand(3000,3500,1000,1750);
+    pomStepsRand(2000,3500,0,1750);*/
+
+
+}//Main
+
+
+//Gets the bot lined up to the middle tape
+void starting()
+{
+    //The following loop moves the robot forward until it detects the "middle" black tape in the kitchen
+    mav(0,rVelo/2);
+    mav(1,lVelo/2);
+    msleep(500);
+    mav(1,lVelo);
+    mav(0,-100);
+    msleep(2550);
+    freeze(0);
+    freeze(1);
+    msleep(1000);
+    while(analog(1)<=blackTape&&passedTape==0)
+    {
+       
+        mav(0,rVelo/2);
+        mav(1,lVelo/2);
+        if(analog(1)>blackTape) //This detects the tape
+        {
+           
+            msleep(500);
+            passedTape=1;
+            freeze(0);
+            freeze(1);
+            printf("Detected tape\n");
+           
+        }
+    }//While loop for detecting tape
+   
+    //Turns onto the tape
+    set_servo_position(1,400);
+    set_servo_position(0,800);
+    mav(0,-rVelo/2);
+    mav(1,lVelo);
+   
+    msleep(2800);
+    freeze(0);
+    freeze(1);
+} //Starting
+
+
+//A general method to get poms
+void pomSteps(int turnTime1, int turnTimeRight, int forwardTime,int forwardTime2, int turnTime2, int clawAmount)
+{
+    atPVC=0;
+    //The following turns the robot out for the first time
+    mav(0,rVelo);
+    mav(1,-lVelo);
+    msleep(turnTime1);
+    freeze(0);
+    freeze(1);
+    printf("Done 1st turning\t");
+   
+    mav(0,-rVelo);
+    mav(1,lVelo);
+    msleep(turnTimeRight);
+    freeze(0);
+    freeze(1);
+    printf("Done turning Right\t");
+
+
+    //Moves forward until it reaches poms
+    set_servo_position(1,clawAmount);
+    msleep(1000);
+    set_servo_position(0,0);
+    msleep(1000);
+    mav(0,rVelo);
+    mav(1,lVelo);
+    msleep(forwardTime);
+    set_servo_position(1,550);
+    freeze(0);
+    freeze(1);
+    printf("Forward done\t");
+   
+    //Turns until it faces the tray
+    set_servo_position(1,closeClaw);
+    msleep(1000);
+    set_servo_position(0,maxPulley/2+200);
+    msleep(750);
+    mav(0,rVelo);
+    mav(1,lVelo);
+    msleep(forwardTime2);
+    freeze(0);
+    freeze(1);
+    msleep(750);
+    mav(0,-rVelo);
+    mav(1,lVelo);
+    msleep(turnTime2);
+    freeze(0);
+    freeze(1);
+    set_servo_position(0,1500); //A little bit higher than maxPulley/2
+    printf("Done 2nd turning\t");
+   
+    //Moves forward until it is within range of PVC near tray
+    while(analog(2)<=1900&&atPVC==0)
+    {
+        mav(0,rVelo/2+300);
+        mav(1,lVelo/2+300);
+        if(analog(2)>1900)
+        {
+            freeze(0);
+            freeze(1);
+            atPVC=1;
+            printf("At PVC\t");
+        }//Detects PVC
+    }//While loop for PVC
+   
+    mav(0,rVelo/2+300);
+    mav(1,lVelo/2+300);
+    msleep(1250);
+    freeze(0);
+    freeze(1);
+   
+    //Drops poms
+    msleep(1000);
+    set_servo_position(0,maxPulley/2+200);
+    set_servo_position(1,100);
+    msleep(500);
+    set_servo_position(1,200);
+    msleep(500);
+    set_servo_position(1,700);
+    msleep(1000);
+    printf("Poms dropped\t");
+   
+    //Resets the bot's position such that it faces the "right" side of the board
+    mav(0,-rVelo);
+    mav(1,-lVelo);
+    msleep(1000);
+    mav(0,rVelo);
+    mav(1,-lVelo);
+    msleep(turnTime2-250); //The value seems to change depending on battery
+    freeze(0);
+    freeze(1);
+    msleep(1000);
+    printf("Reseted ordered\n");
+} //Pomstep
+
+
+void pomStepsRand(int reverseTime, int forwardTime, int forwardTime2, int turnTime1)
+{
+    //Reverses the bot to get the set and sets the claw to a specific amount
+    mav(0,-rVelo);
+    mav(1,-lVelo);
+    set_servo_position(1,400);
+    msleep(reverseTime);
+    freeze(0);
+    freeze(1);
+    set_servo_position(0,0);
+    msleep(1000);
+    printf("Reverse done\t");
+
+
+    //Drives forward until half the amount of poms is received
+    mav(0,rVelo);
+    mav(1,lVelo);
+    msleep(forwardTime/2);
+    freeze(0);
+    freeze(1);
+    set_servo_position(1,300);
+    msleep(750);
+    set_servo_position(1,150);
+    msleep(750);
+    set_servo_position(1,400);
+    printf("First half done\t");
+
+
+    //Drives forward until next half the amount of poms is received
+    mav(0,rVelo);
+    mav(1,lVelo);
+    msleep(forwardTime/2);
+    freeze(0);
+    freeze(1);
+    set_servo_position(1,300);
+    msleep(750);
+    set_servo_position(1,150);
+    msleep(750);
+    set_servo_position(1,0);
+    set_servo_position(0,maxPulley/2+200);
+    msleep(1000);
+    set_servo_position(0,maxPulley);
+    printf("Second half done\t");
+
+
+    //Goes forward, turns and drops the poms
+    mav(0,rVelo);
+    mav(1,lVelo);
+    msleep(forwardTime2);
+
+
+    mav(0,-rVelo);
+    mav(1,lVelo);
+    msleep(turnTime1);
+    mav(0,rVelo);
+    mav(1,lVelo);
+    msleep(750);
+    freeze(0);
+    freeze(1);
+
+
+    set_servo_position(1,100);
+    msleep(500);
+    set_servo_position(1,200);
+    msleep(500);
+    set_servo_position(1,500);
+    msleep(1000);
+    printf("Poms dropped\t");
+
+
+    //Resets the orientation
+    mav(0,-rVelo);
+    mav(1,-lVelo);
+    msleep(750);
+    mav(0,rVelo);
+    mav(1,-lVelo);
+    msleep(turnTime1);
+    printf("Reseted rand\n");
+
+
+}//pomStepsRand
+
+
+void reverse(int reverseTime)
+{
+    //Reverses the bot to get the set and sets the claw to a specific amount
+    mav(0,-rVelo);
+    mav(1,-lVelo);
+    set_servo_position(1,400);
+    msleep(reverseTime);
+    freeze(0);
+    freeze(1);
+    set_servo_position(0,0);
+    msleep(1000);
+    printf("Reverse done\t");
+}
+
+
+void pomset2()
+{
+   
+}
+
