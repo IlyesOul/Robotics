@@ -1,0 +1,110 @@
+#include <kipr/wombat.h>
+#include <stdlib.h>
+
+//0 is red 1 is green 2 is blue
+typedef struct{
+    int color;
+    int Xpos;
+    int width;
+}cup;
+int compareCups(const void* a, const void* b);
+int detectCups(cup cups[],int rightBound);
+int main()
+{
+    camera_open_black();
+    camera_update();
+    msleep(1000);
+    enable_servos();
+    
+    // Default motor position
+    clear_motor_position_counter(0);
+    
+    set_servo_position(0,1300);//open enough for the cup
+    set_servo_position(1,0);//camera start
+    
+    cup cups[3];//not including the pole
+    cup cups2[3];//with pole
+    detectCups(cups,425);//not including the pole
+    detectCups(cups2,640);//with pole
+    
+    //distance changed
+    int change[3];
+    for(int i=0;i<3;i++){
+        change[i]=cups[i].Xpos-cups2[i].Xpos;
+        printf("%d\n",change[i]);
+    }
+    int maxAbsValue=abs(change[0]);
+    int maxAbsIndex=0;
+    //find max distance changed
+    for(int i=1;i<3;i++){
+        if(abs(change[i])>maxAbsValue && cups[i].color!=2){
+            maxAbsValue = abs(change[i]);
+            maxAbsIndex=i;
+        }
+    }
+    int ColorChange=cups[maxAbsIndex].color;
+    printf("ColorChange= %d",ColorChange);
+    qsort(cups2,3,sizeof(cup),compareCups);
+    qsort(cups,3,sizeof(cup),compareCups);
+    printf("cups post sort \n");
+    for(int i=0;i<3;i++){
+    	printf("color %d\n",cups[i].color);
+        printf("Xpos %d\n",cups[i].Xpos);
+    }
+    printf("cups2 post sort \n");
+    for(int i=0;i<3;i++){
+    	printf("color %d\n",cups2[i].color);
+        printf("Xpos %d\n",cups2[i].Xpos);
+    }
+    
+    return 0;
+}
+
+int detectCups(cup cups[],int rightBound){
+    //set up cup array
+    for(int i=0;i<3;i++){
+      	cups[i].color=i;
+        cups[i].Xpos=0;
+        cups[i].width=0;  
+    }
+    int repeatNumber=3;//how many time to redo the detection to increase accuracy
+    for(int k=0;k<repeatNumber;k++){
+        camera_update();
+        msleep(50);
+        camera_update();
+        printf("total obj = %d\n",get_object_count(0));
+        //repeat loop
+        for(int j=0;j<3;j++){
+            int colorCount=get_object_count(j);
+            int xTotal=0;
+            int count=0;
+            //look for each of the 3 colors
+            for(int i=0;i<colorCount;i++){
+                if(j==0){
+                	printf("Object x for blue %d | %d \n",get_object_center_x(j,i),get_object_area(j,i));
+            	}
+               	//conditions for obeject to be counted
+                if(get_object_confidence(j,i)>0.01 && get_object_area(j,i)>15 && get_object_center_x(j,i)>10 && get_object_center_x(j,i)<rightBound && get_object_center_y(j,i)<220){
+                    xTotal+=get_object_center_x(j,i);
+                    count++;
+                }
+                
+            }    
+            //set variables in cup
+            int centerX= xTotal/(count);
+            cups[j].color=j;
+            cups[j].Xpos+=centerX;
+        }
+	}
+    //find the mean of the values
+    for(int i=0;i<3;i++){
+        cups[i].Xpos=cups[i].Xpos/repeatNumber;
+    }
+    return 1;
+}
+int compareCups(const void* a, const void* b){
+    cup* cupA = (cup*)a;
+    cup* cupB = (cup*)b;
+    return cupA->Xpos - cupB->Xpos;
+}
+
